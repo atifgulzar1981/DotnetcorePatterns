@@ -1,0 +1,18 @@
+﻿@model Employee
+
+@{
+  ViewData["Title"] = "Add Employee";
+}
+
+<div class="row">
+  <div class="col-md-10">
+    <h1>@ViewData["Title"]</h1>
+  </div>
+  <div class="col-md-2">
+    <a class="btn btn-link" asp-area="" asp-controller="Employees" asp-action="Index">Back To Employees</a>
+  </div>
+</div>
+
+<form asp-controller="Employees" asp-action="Create" method="post">
+  @Html.Partial("_Form")
+</form>

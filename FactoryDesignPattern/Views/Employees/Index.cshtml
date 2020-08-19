@@ -1,0 +1,85 @@
+﻿@model List<Employee>
+
+@{
+  ViewData["Title"] = "Employees";
+}
+
+<div class="row">
+  <div class="col-md-10">
+    <h1>@ViewData["Title"]</h1>
+  </div>
+  <div class="col-md-2">
+    <a class="btn btn-light" asp-area="" asp-controller="Employees" asp-action="Create">Add Employee</a>
+  </div>
+</div>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Id</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Employee Type</th>
+    <th>Hourly Pay</th>
+    <th>Bonus</th>
+    <th>Edit</th>
+    <th>Delete</th>
+  </tr>
+  </thead>
+  <tbody>
+  @foreach (var employee in Model)
+  {
+    <tr>
+      <td>@employee.Id</td>
+      <td>@employee.FirstName</td>
+      <td>@employee.LastName</td>
+      <td>@employee.EmployeeType</td>
+      <td>@employee.HourlyPay</td>
+      <td>@employee.Bonus</td>
+      <td>
+        <a class="btn btn-link" asp-controller="Employees" asp-action="Edit" asp-route-id="@employee.Id">Edit</a>
+      </td>
+      <td>
+        <a href="#" class="btn btn-link delete-btn" data-employee-id="@employee.Id">Delete</a>
+      </td>
+    </tr>
+  }
+  </tbody>
+</table>
+
+<form method="post" asp-controller="Employees" asp-action="Delete">
+  <div class="modal" id="delete-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirm Delete</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure to delete this employee?</p>
+          <input type="hidden" name="id" value="" id="deleteEmployeeId"/>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger">Delete</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+
+@section scripts {
+  <script type="text/javascript">
+    $(function() {
+      $('.delete-btn').on('click',
+        function(e) {
+          e.preventDefault();
+          $('#deleteEmployeeId').val($(this).data('employeeId'));
+          $('#delete-modal').modal('show');
+        });
+    });
+  </script>
+}
